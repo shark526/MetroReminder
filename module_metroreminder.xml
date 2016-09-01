@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_metroreminder" default="compile.module.metroreminder">
+  <dirname property="module.metroreminder.basedir" file="${ant.file.module_metroreminder}"/>
+  
+  <property name="module.jdk.home.metroreminder" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.metroreminder" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.metroreminder" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.metroreminder" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="metroreminder.output.dir" value="${module.metroreminder.basedir}/bin/classes"/>
+  <property name="metroreminder.testoutput.dir" value="${module.metroreminder.basedir}/bin/classes"/>
+  
+  <path id="metroreminder.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="metroreminder.module.production.classpath">
+    <path refid="${module.jdk.classpath.metroreminder}"/>
+  </path>
+  
+  <path id="metroreminder.runtime.production.module.classpath">
+    <pathelement location="${metroreminder.output.dir}"/>
+  </path>
+  
+  <path id="metroreminder.module.classpath">
+    <path refid="${module.jdk.classpath.metroreminder}"/>
+    <pathelement location="${metroreminder.output.dir}"/>
+  </path>
+  
+  <path id="metroreminder.runtime.module.classpath">
+    <pathelement location="${metroreminder.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.metroreminder">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.metroreminder">
+    <patternset refid="excluded.from.module.metroreminder"/>
+  </patternset>
+  
+  <path id="metroreminder.module.sourcepath">
+    <dirset dir="${module.metroreminder.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.metroreminder" depends="compile.module.metroreminder.production,compile.module.metroreminder.tests" description="Compile module MetroReminder"/>
+  
+  <target name="compile.module.metroreminder.production" depends="register.custom.compilers" description="Compile module MetroReminder; production classes">
+    <mkdir dir="${metroreminder.output.dir}"/>
+    <javac2 destdir="${metroreminder.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.metroreminder}/javac">
+      <compilerarg line="${compiler.args.metroreminder}"/>
+      <bootclasspath refid="metroreminder.module.bootclasspath"/>
+      <classpath refid="metroreminder.module.production.classpath"/>
+      <src refid="metroreminder.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.metroreminder"/>
+    </javac2>
+    
+    <copy todir="${metroreminder.output.dir}">
+      <fileset dir="${module.metroreminder.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.metroreminder.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.metroreminder.tests" depends="register.custom.compilers,compile.module.metroreminder.production" description="compile module MetroReminder; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.metroreminder" description="cleanup module">
+    <delete dir="${metroreminder.output.dir}"/>
+    <delete dir="${metroreminder.testoutput.dir}"/>
+  </target>
+</project>

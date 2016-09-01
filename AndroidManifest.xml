@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shark.metroreminder"
+    android:versionCode="1"
+    android:versionName="1.0" > 
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="16" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name= "android.permission.READ_PHONE_STATE"/>
+
+    <application
+        android:name="AppData"
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.shark.metroreminder.MainActivity"
+            android:label="@string/app_name" 
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- Message Activity -->
+      
+		<activity android:name=".MessageActivity"
+			android:label="You have messages"
+			android:theme="@style/Theme.Transparent"
+			android:launchMode="singleTask"
+			android:taskAffinity=""
+			android:excludeFromRecents="true">
+        </activity>
+  
+        <activity android:name=".SettingsActivity">
+        </activity>
+        <!-- Polling Service -->
+		<service android:name="com.shark.metroreminder.NotifyingService"/>
+        <service android:name="com.shark.metroreminder.PollingService">
+            <intent-filter>
+                <action android:name="com.shark.service.PollingService"/>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
