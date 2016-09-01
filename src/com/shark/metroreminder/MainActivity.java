@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 					}
 				}
 			});
-		
+		/*
 		btnMark.setOnTouchListener(new View.OnTouchListener() {
 				int lastX, lastY;
 				public boolean onTouch(View v, MotionEvent event) {
@@ -218,7 +218,7 @@ public class MainActivity extends Activity {
 					}
 					return false;
 				}
-			});
+			});*/
 	}
 	private void showMarkDialog(){
 		markDialog.setMessage(currentCellID);
