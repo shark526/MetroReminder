@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Settings">
+    <CheckBoxPreference
+		android:title="振动提醒"
+		android:key="check_vibrate"
+		android:summaryOn="到站时振动提示"
+		android:summaryOff="到站时将不会振动."
+		android:defaultValue="true">
+    </CheckBoxPreference>
+	﻿    <CheckBoxPreference
+		android:title="铃声提醒"
+		android:key="check_ringtone"
+		android:summaryOn="到站时铃声提示"
+		android:summaryOff="到站时将不会响铃."
+		android:defaultValue="true">
+    </CheckBoxPreference>
+</PreferenceScreen>

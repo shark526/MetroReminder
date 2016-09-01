@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MetroReminder</string>
+    <string name="action_settings">设置</string>
+	<string name="action_help">帮助</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
