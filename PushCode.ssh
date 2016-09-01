@@ -1,2 +1,2 @@
-git remote add origin git@github.com:shark526/Metroreminder.git 
+git remote add origin shark526@github.com:shark526/Metroreminder.git 
 git push -u origin master
