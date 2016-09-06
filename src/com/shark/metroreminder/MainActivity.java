@@ -34,6 +34,9 @@ public class MainActivity extends Activity {
 	AlertDialog markDialog;
 	Thread searchThread;
 	private ConditionVariable mCondition;
+	
+	private boolean editMode=false;
+	
 	Handler handler = new Handler()
 	{
 		public void handleMessage(android.os.Message msg) {
@@ -261,19 +264,61 @@ public class MainActivity extends Activity {
 
 	}
 
-    private void removeSelectedItem(String stationName, final String stationCellID){
+    private void removeSelectedItem(final String stationName, final String stationCellID){
         new AlertDialog.Builder(MainActivity.this).setTitle("确定要删除车站'"+ stationName +"'吗?").setIcon(
                 android.R.drawable.ic_dialog_info).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 SharedPreferences shared = MainActivity.this.getSharedPreferences("info",Context.MODE_WORLD_READABLE );
-                shared.edit().remove(stationCellID).commit();
+                if(stationCellID.equals("..."))
+				{
+					for(Map.Entry<String,?> entry :shared.getAll().entrySet())
+					{
+
+						String curStationName;
+						String preValue = entry.getValue().toString();
+
+						if(preValue.contains("|")) {
+					
+							curStationName =preValue.split("\\|")[0];
+						}
+						else
+						{
+							curStationName = preValue;
+						}
+						//if((entry.getValue().toString().split("\\|")[0]).indexOf(stationName)==1)
+						if(curStationName.equals(stationName))
+						{
+							shared.edit().remove(entry.getKey().toString()).commit();
+						}
+
+
+					}
+				}
+				else{
+					shared.edit().remove(stationCellID).commit();
+				}
+				
                 Toast.makeText(MainActivity.this, "选中项已删除!", Toast.LENGTH_LONG).show();
                 bindDataList();
             }
         }).setNegativeButton("取消", null).show();
     }
 	
+	private boolean existeStationName(ArrayList<StationItem> stationList,String stationName,boolean remind)
+	{
+		for(StationItem station:stationList)
+		{
+			if(station.StationName.equals(stationName))
+			{
+				station.StationCellID="...";
+				if(!remind)
+					station.needRemind=false;
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	@SuppressWarnings("unchecked")
 	private void bindDataList() {
@@ -304,7 +349,13 @@ public class MainActivity extends Activity {
             }
 			try{
             curSI.StationCellID = entry.getKey().toString();
-            stationList.add(curSI);
+				if(!editMode && existeStationName(stationList,curSI.StationName,curSI.needRemind)){
+					
+				}
+				else{
+					stationList.add(curSI);
+				}
+          	  //stationList.add(curSI);
 			}
 			catch(Exception ex){
 				//String aa=ex.getCause().toString();
@@ -357,7 +408,12 @@ public class MainActivity extends Activity {
 		}
 		return false;
 	}
-	
+	private void alterEditView(MenuItem item)
+	{
+		editMode=editMode?false:true;
+		item.setTitle(editMode?"折叠列表":"展开列表");
+		bindDataList();
+	}
 
 	DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
 	{
@@ -380,6 +436,9 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
+			case R.id.action_edit:
+				alterEditView( item);
+				break;
 			case R.id.action_settings:
 				showSettingsActivity();
 				break;
@@ -391,6 +450,7 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 //menu setting click
 	private void showHelpMessage(){
 		String helpText = "●首先，感谢使用;)\r\n";

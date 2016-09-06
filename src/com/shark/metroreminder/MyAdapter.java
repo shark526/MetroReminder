@@ -1,13 +1,9 @@
 package com.shark.metroreminder;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.*;
+import android.view.*;
 import android.widget.*;
-
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by yuw6 on 18/03/2016.
@@ -60,13 +56,43 @@ public class MyAdapter extends BaseAdapter {
 //                itemChecked[position] = cb.isChecked();
                 dataList.get(position).needRemind = cb.isChecked();
                 String stationCellID =dataList.get(position).StationCellID;
-                String stationName = dataList.get(position).StationName +"|" + (cb.isChecked() ?"1":"0");
+				String displayStationName=dataList.get(position).StationName;
+                String stationName = displayStationName +"|" + (cb.isChecked() ?"1":"0");
                 SharedPreferences.Editor editor = sharedData.edit();
                 if(sharedData.contains(stationCellID)){
                     editor.remove(stationCellID);
                     editor.putString(stationCellID,stationName);
                     editor.commit();
                 }
+				else if(stationCellID.equals("..."))
+				{
+					//Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_LONG);
+					for(Map.Entry<String,?> entry :sharedData.getAll().entrySet())
+					{
+						
+							StationItem curSI = new StationItem();
+							String preValue = entry.getValue().toString();
+
+							if(preValue.contains("|")) {
+								curSI.needRemind = preValue.split("\\|")[1].equals("1") ? true : false;
+								curSI.StationName =preValue.split("\\|")[0];
+							}
+							else
+							{
+								curSI.needRemind = false;
+								curSI.StationName = preValue;
+							}
+							curSI.StationCellID = entry.getKey().toString();
+							if(curSI.StationName.equals(displayStationName))
+							{
+								editor.remove(curSI.StationCellID);
+								editor.putString(curSI.StationCellID,stationName);
+								editor.commit();
+							}
+							
+						
+					}
+				}
             }
         });
         // add data to ViewHolder
