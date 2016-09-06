@@ -88,9 +88,10 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				ToggleButton tbtn = (ToggleButton)findViewById(R.id.tbtnRemind);
+				Switch tbtn = (Switch)findViewById(R.id.tbtnRemind);
 				//打开或暂停服务
-				runOrStopService(tbtn.getTextOn().equals(tbtn.getText()));
+				runOrStopService(tbtn.isChecked());
+				//runOrStopService(tbtn.getTextOn().equals(tbtn.getText()));
 			}
 		});
 	    bindDataList();
@@ -127,7 +128,7 @@ public class MainActivity extends Activity {
 					}
 					else { 
 						editor.remove(currentCellID);
-						editor.putString(currentCellID,currentStation+"|0");
+						editor.putString(currentCellID,currentStation+"|1");
 						Toast.makeText(MainActivity.this, "已存在对id：" + currentCellID + "的标记,现已更新", Toast.LENGTH_LONG).show(); 
 
 					}
@@ -411,7 +412,7 @@ public class MainActivity extends Activity {
 	private void alterEditView(MenuItem item)
 	{
 		editMode=editMode?false:true;
-		item.setTitle(editMode?"折叠列表":"展开列表");
+		item.setTitle(editMode?"合并列表":"展开列表");
 		bindDataList();
 	}
 
