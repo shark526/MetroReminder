@@ -41,11 +41,13 @@ public final class R {
         public static final int ItemText=0x7f0a0007;
         public static final int ItemTitle=0x7f0a0006;
         public static final int MyListItem=0x7f0a0004;
-        public static final int action_help=0x7f0a0009;
-        public static final int action_settings=0x7f0a0008;
+        public static final int action_edit=0x7f0a0008;
+        public static final int action_help=0x7f0a000b;
+        public static final int action_settings=0x7f0a000a;
         public static final int btnMark=0x7f0a0003;
         public static final int cbRemind=0x7f0a0005;
         public static final int listView1=0x7f0a0002;
+        public static final int menu_overflow=0x7f0a0009;
         public static final int tbtnRemind=0x7f0a0001;
         public static final int textView1=0x7f0a0000;
     }
