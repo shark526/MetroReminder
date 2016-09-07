@@ -85,7 +85,7 @@ public class NotifyingService extends Service {
 		//mManager.notify(0, mNotification);
 
 		Notification notification = new Notification.Builder(this)
-			.setSmallIcon(R.drawable.ic_launcher)
+			.setSmallIcon(R.drawable.icon)
 			.setWhen(System.currentTimeMillis())
 			.setContentTitle(getResources().getString(R.string.app_name))
 			.setContentText(StationName + " 到了!")  // the contents of the entry
